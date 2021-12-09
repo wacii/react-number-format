@@ -911,7 +911,12 @@ class NumberFormat extends React.Component {
       negative value while the cursor position is after prefix. We can't handle it on onChange because
       we will not have any information of keyPress
       */
-      if (selectionStart <= leftBound + 1 && value[0] === '-' && typeof format === 'undefined') {
+      if (
+        prefix.length &&
+        selectionStart <= leftBound + 1 &&
+        value[0] === '-' &&
+        typeof format === 'undefined'
+      ) {
         const newValue = value.substring(1);
         this.updateValue({
           formattedValue: newValue,

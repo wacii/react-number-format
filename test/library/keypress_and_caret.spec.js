@@ -60,6 +60,31 @@ describe('Test keypress and caret position changes', () => {
     expect(caretPos).toEqual(2);
   });
 
+  it('should allow removing negation(-)', async () => {
+    const spy = jasmine.createSpy();
+
+    const view = render(
+      <NumberFormat
+        thousandSeparator=","
+        suffix=""
+        prefix=""
+        value="-1,000"
+        onValueChange={spy}
+        data-testid="currency-input"
+      />,
+    );
+
+    const input = await view.findByTestId('currency-input');
+
+    input.setSelectionRange(1, 1);
+
+    userEvent.type(input, '{backspace}');
+
+    expect(input.value).toEqual('1,000');
+    expect(input.selectionStart).toEqual(0);
+    expect(spy).toHaveBeenCalled();
+  });
+
   describe('Test character insertion', () => {
     it('should add any number properly when input is empty without format prop passed', () => {
       const wrapper = shallow(<NumberFormat thousandSeparator={true} prefix={'$'} />);
